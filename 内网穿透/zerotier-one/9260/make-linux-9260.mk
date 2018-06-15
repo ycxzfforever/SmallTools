@@ -10,7 +10,7 @@ ifeq ($(origin CXX),default)
 endif
 
 #9260
-CROSS=/opt/gcc-linaro-4.9.4-2017.01-i686_arm-linux-gnueabi/bin/arm-linux-gnueabi-
+CROSS=/opt/arm-2014.05/bin/arm-none-linux-gnueabi-
 #am335x
 #CROSS=/opt/armhf-gcc-4.9/bin/arm-linux-gnueabihf-
 
@@ -282,7 +282,7 @@ zerotier-cli: one
 
 staticzerotier-one:
 	$(CROSS)ar cqs libzerotier-one.a $(CORE_OBJS) $(ONE_OBJS)
-	$(CXX) -o zerotier-one $(CORE_OBJS) $(ONE_OBJS) one.o -L. -lzerotier-one -static -pthread
+	$(CXX) -o zerotier-one $(CORE_OBJS) $(ONE_OBJS) one.o -L. -lzerotier-one -static -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -lc
 	$(CROSS)strip zerotier-one
 libzerotiercore.a:	FORCE
 	make CFLAGS="-O3 -fstack-protector -fPIC" CXXFLAGS="-O3 -std=c++11 -fstack-protector -fPIC" $(CORE_OBJS)
